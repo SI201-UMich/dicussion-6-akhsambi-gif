@@ -84,11 +84,11 @@ class PollReader():
         max_harris = max(self.data_dict['Harris result'])
         max_trump = max(self.data_dict['Trump result'])
         if max_harris > max_trump: 
-            return f"Harris with {(max_harris * 100):.4f}"
+            return f"Harris with {(max_harris * 100):.1f}%"
         elif max_trump > max_harris: 
-            return f"Trump with {(max_trump *100):.4f}"
+            return f"Trump with {(max_trump *100):.1f}%"
         else: 
-            return f"EVEN with {(max_harris * 100):.4f}"
+            return f"EVEN with {(max_harris * 100):.1f}%"
         
         pass
 
@@ -134,21 +134,16 @@ class PollReader():
                    Positive values indicate an increase, negative values indicate a decrease.
         """
         
-        early_harris = sum(self.data_dict["Harris result"][:30])/30
-        early_trump = sum(self.data_dict["Trump result"][:30])/30
+        early_harris = sum(self.data_dict["Harris result"][-30:])/30
+        early_trump = sum(self.data_dict["Trump result"][-30:])/30
 
-        late_harris = sum(self.data_dict["Harris result"][-30:])/30
-        late_trump = sum(self.data_dict["Trump result"][-30:])/30
-        return 
+        late_harris = sum(self.data_dict["Harris result"][:30])/30
+        late_trump = sum(self.data_dict["Trump result"][:30])/30
+    
+        return ((late_harris - early_harris), (late_trump - early_trump))
 
 
-        earliest = polls[:30]
-        latest = polls[-30:]
-
-        avg_harris_earliest = sum(p["Harris"] for p in earliest)/len(earliest)
-        avg_trump_earliest = sum(p["Trum"])
-
-        pass
+        
 
 
 class TestPollReader(unittest.TestCase):
